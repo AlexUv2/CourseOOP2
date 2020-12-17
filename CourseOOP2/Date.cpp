@@ -1,4 +1,4 @@
-#include "Date.h"
+	#include "Date.h"
 using namespace std;
 
 Date::Date()
@@ -90,6 +90,20 @@ int Date::getMonth()
 int Date::getYear()
 {
 	return year;
+}
+
+void Date::writeDate(ostream& write)
+{
+	write.write(reinterpret_cast<char*>(&this->day), sizeof(int));
+	write.write(reinterpret_cast<char*>(&this->month), sizeof(int));
+	write.write(reinterpret_cast<char*>(&this->year), sizeof(int));
+}
+
+void Date::readDate(istream& read)
+{
+	read.read(reinterpret_cast<char*>(&this->day), sizeof(int));
+	read.read(reinterpret_cast<char*>(&this->month), sizeof(int));
+	read.read(reinterpret_cast<char*>(&this->year), sizeof(int));
 }
 
 Date& Date::operator=(const Date& obj)

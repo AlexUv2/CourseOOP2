@@ -8,19 +8,52 @@ BuyOp::BuyOp()
 }
 
 
-
 BuyOp::BuyOp(int day, int month, int year, Product* prLst, int n, int salePerc): 
 	Client(salePerc)
 {
+	this->prLst = NULL;
 	this->date.setDate(day, month, year);
 	setPrList(prLst, n);
+
+		this->sumWithSale = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (prLst[i].getSaleAviab())
+			{
+				sumWithSale += prLst[i].getProdPrice() - (prLst[i].getProdPrice() * (double(salePerc) / 100));
+			}
+			else
+			{
+				sumWithSale += prLst[i].getProdPrice();
+			}
+		}
+		setSumOfPurch(sumWithSale);
 }
 
 BuyOp::BuyOp(int day, int month, int year, Product prod, int salePerc):
 	Client(salePerc)
 {
+	this->prLst = NULL;
+
 	this->date.setDate(day, month, year);
+
 	addProduct(prod);
+
+	this->sumOfProds = 0;
+	this->sumWithSale = 0;
+		for (int i = 0; i < this->n; i++)
+		{
+			if (prLst[i].getSaleAviab())
+			{
+				sumWithSale += prLst[i].getProdPrice() - (prLst[i].getProdPrice() * (double(salePerc) / 100));
+			}
+			else
+			{
+				sumWithSale += prLst[i].getProdPrice();
+			}
+			this->sumOfProds += prLst[i].getProdPrice();
+		}
+		setSumOfPurch(sumWithSale);
 }
 
 
@@ -39,10 +72,12 @@ BuyOp::BuyOp(const BuyOp& cpy):
 	}
 }
 
+
 BuyOp::~BuyOp()
 {
 	delete[] this->prLst;// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
+
 
 void BuyOp::setPrList(Product* prLst, int n)
 {
@@ -107,7 +142,10 @@ void BuyOp::addProduct(Product prod)
 	}
 	*(cpy + n) = prod;
 	this->n++;
-	delete[] prLst;
+	if (prLst)
+	{
+		delete[] prLst;
+	}
 	this->prLst = cpy;
 }
 
@@ -157,6 +195,11 @@ int BuyOp::getYear()
 	return date.getYear();
 }
 
+int BuyOp::getN()
+{
+	return this->n;
+}
+
 void BuyOp::Show()
 {
 	for (int i = 0; i < n; i++)
@@ -182,6 +225,49 @@ void BuyOp::show()
 	Client::show();
 
 	
+}
+
+void BuyOp::writeBuyOp(ostream& write)
+{
+	write.write(reinterpret_cast<char*>(&this->n), sizeof(int));
+	write.write(reinterpret_cast<char*>(&this->date), sizeof(Date));
+	write.write(reinterpret_cast<char*>(&this->sumOfProds), sizeof(double));
+	write.write(reinterpret_cast<char*>(&this->sumWithSale), sizeof(double));
+	write.write(reinterpret_cast<char*>(&this->salePerc), sizeof(int));
+
+	for (int i = 0; i < this->n; i++)
+	{
+		prLst[i].writeProduct(write);
+	}
+
+	/*date = obj.date;
+	ID = obj.ID;
+	sumOfProds = obj.sumOfProds;
+	salePerc = obj.salePerc;
+	n = obj.n;
+	sumWithSale = obj.sumWithSale;*/
+	
+
+
+}
+
+void BuyOp::readBuyOp(istream& read)
+{
+	read.read(reinterpret_cast<char*>(&this->n), sizeof(int));
+	read.read(reinterpret_cast<char*>(&this->date), sizeof(Date));
+	read.read(reinterpret_cast<char*>(&this->sumOfProds), sizeof(double));
+	read.read(reinterpret_cast<char*>(&this->sumWithSale), sizeof(double));
+	read.read(reinterpret_cast<char*>(&this->salePerc), sizeof(int));
+
+	if (prLst)
+	{
+		delete[]prLst;
+	}
+	prLst = new Product[this->n];
+	for (int i = 0; i < this->n; i++)
+	{
+		prLst[i].readProduct(read);
+	}
 }
 
 Product& BuyOp::operator[](int index)

@@ -2,6 +2,8 @@
 using namespace std;
 #ifndef CLIENT_H_
 #define CLIENT_H_
+#include <fstream>
+using namespace std;
 
 class Client
 {
@@ -13,6 +15,7 @@ protected:
 public:
 	Client();
 	Client(int selePerc); //Мы не передаем ID так ак он устанавливается по умолчанию
+	Client(double sumOfPurch, int salePers);
 	Client(const Client& Cpy);
 	~Client();
 
@@ -24,6 +27,9 @@ public:
 	int getID();
 
 	virtual void show();
+
+	void writeClient(ostream& write);
+	void readClient(istream& read);
 
 	Client operator=(Client obj);
 };

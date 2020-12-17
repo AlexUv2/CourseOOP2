@@ -2,6 +2,9 @@
 #include <iostream>
 #ifndef DATE_H_
 #define DATE_H_
+#include <fstream>
+#include <ios>
+using namespace std;
 
 class Date
 {
@@ -28,6 +31,11 @@ public:
 	int getDay();
 	int getMonth();
 	int getYear();
+
+	
+	void writeDate(ostream& write);
+	void readDate(istream& read);
+
 
 	Date& operator=(const Date& obj);
 };

@@ -24,6 +24,12 @@ public:
 	double getProdPrice();
 	bool getSaleAviab();
 
+	void writeProduct(ostream& write);
+	void readProduct(istream& read);
+
+
+	void show();
+
 	Product operator=(Product ob);
 };
 

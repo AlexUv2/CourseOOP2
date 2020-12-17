@@ -39,9 +39,16 @@ public:
 	int getMonth();
 	int getYear();
 
+
+	int getN();
+
 	void Show();
 
 	void show();
+
+
+	void writeBuyOp(ostream& write);
+	void readBuyOp(istream& read);
 
 	Product& operator[](int index);
 	BuyOp& operator=(const BuyOp& obj);

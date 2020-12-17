@@ -49,6 +49,7 @@ void Product::setProdPrice(double prodPrice)
 	}
 }
 
+
 void Product::setSaleAviab(bool saleAviab)
 {
 	if (saleAviab)
@@ -61,20 +62,63 @@ void Product::setSaleAviab(bool saleAviab)
 	}
 }
 
+
 string Product::getProdName()
 {
 	return this->prodName;
 }
+
 
 double Product::getProdPrice()
 {
 	return this->prodPrice;
 }
 
+
 bool Product::getSaleAviab()
 {
 	return this->saleAviab;
 }
+
+
+void Product::writeProduct(ostream& write)
+{
+	int str_size = prodName.size() + 1;
+	write.write(reinterpret_cast<char*>(&str_size), sizeof(int));
+	char* chrs = new char[str_size];
+	strcpy(chrs, this->prodName.c_str());
+	write.write(reinterpret_cast<char*>(&chrs[0]), sizeof(char) * str_size);
+
+	write.write(reinterpret_cast<char*>(&this->prodPrice), sizeof(double));
+	write.write(reinterpret_cast<char*>(&this->saleAviab), sizeof(bool));
+
+	delete[]chrs;
+}
+
+
+void Product::readProduct(istream& read)
+{
+	int str_size = 0;
+	read.read(reinterpret_cast<char*>(&str_size), sizeof(int));
+	char* chrs = new char[str_size];
+	read.read(reinterpret_cast<char*>(&chrs[0]), sizeof(char) * str_size);
+	prodName = chrs;
+
+	read.read(reinterpret_cast<char*>(&this->prodPrice), sizeof(double));
+	read.read(reinterpret_cast<char*>(&this->saleAviab), sizeof(bool));
+
+	delete[]chrs;
+}
+
+
+void Product::show()
+{
+	cout << "Product Name:" << getProdName() << endl;
+	cout << "procuct price: " << getProdPrice() << endl;
+	cout << "Sale Avib: " << getSaleAviab() << endl;
+
+}
+
 
 Product Product::operator=(Product ob)
 {
