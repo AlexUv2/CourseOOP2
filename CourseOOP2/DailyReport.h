@@ -53,6 +53,12 @@ public:
 
 	BuyOp& operator[](int index);
 	DailyReport& operator=(const DailyReport& obj);
+
+
+
+	void Tab(/*double* arr, double dx, int numOfElem, double val*/);
+	void line(char start, char middle, char cross, char end, int count, int len);
+	void line1(char start, char middle, char cross, char end, int count, int len);
 };
 
 #endif

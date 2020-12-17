@@ -11,7 +11,6 @@ using namespace std;
 
 //Допиоить бинарку
 //Использовтаь эксепшены на проверку открытия файла
-//Сделать проверки на дату, что бы в байопе и репорте совпадала дата, так как они должны быть за один день!!!!!!!!
 //Исправить темплейты
 //Добавить бинарки
 //проверки на запись\чтение
@@ -82,12 +81,12 @@ int main()
 {
     //Дефолтный Обьект со списком
     const int defNum = 20;
-    const int numBuyop = 20;
+    const int numBuyop = 10;
     int defday = 15;
     int defmonth = 11;
     int defyear = 2007;
     Product prodLST[defNum];
-    string prodNames[defNum] = { "Milk", "Nut", "Water", "Bread", "Sausages", "Meat", "Apples", "Bananas",
+    string prodNames[defNum] = { "Milk", "Nut", "Water", "Bread", "Sausage", "Meat", "Apples", "Bananas",
         "Oranges", "Carrot", "Beer", "Potato", "Fish", "Onion", "Chees", "Cream", "Oil", "Sugar", "Salt", "Tomato" };
 
     for (int i = 0; i < defNum; i++)
@@ -124,6 +123,7 @@ int main()
 
 
     DailyReport D;
+
     //Дефолтный ввод
     string path = "DAILYREPORT.txt";
     ifstream read;
@@ -264,7 +264,7 @@ int main()
             write.open(path);
             dayRep.writeDayPer(write);
             write.close();
-            cout << " File successfully writen";
+            cout << " File successfully writen \n";
             break;
 
 
@@ -282,11 +282,75 @@ int main()
             cout << " File successfully readed";
 
             break;
+            
+        case 5:
+            cout << " Choose the report where you want to search (1-manual, 2-default): ";
+            cin >> num;
+            switch (num)
+            {
+            case 1:
 
+                userread.open(userpath);
+                D.readDayRep(userread);
+                userread.close();
+
+                cout << " To search price - enter 1, name of product - 2";
+                cin >> num;
+                switch (num)
+                {
+                case 1:
+                    cout << " Enter product price to find: ";
+                    cin >> prodPrice;
+                    SearchByPrice(prodPrice, D);
+                    break;
+
+                case 2:
+                    cout << " Enter product name to find: ";
+                    cin >> prodName;
+                    SearchByName(prodName, D);
+                    break;
+                default:
+                    cout << "Wrong number";
+                    break;
+                }
+                break;
+
+            case 2:
+                read.open(path);
+                D.readDayRep(read);
+                read.close();
+
+                cout << " To search price - enter 1, name of product - 2: ";
+                cin >> num;
+                switch (num)
+                {
+                case 1:
+                    cout << " Enter product price to find: ";
+                    cin >> prodPrice;
+                    SearchByPrice(prodPrice, D);
+                    break;
+
+                case 2:
+                    cout << " Enter product name to find: ";
+                    cin >> prodName;
+                    SearchByName(prodName, D);
+                    break;
+                default:
+                    cout << "Wrong number";
+                    break;
+                }
+                break;
+
+            default:
+                cout << " Wrong number";
+                break;
+            }
+
+            break;
 
         case 6:
 
-            cout << " Choose which file name you want to change(1-user, 2-default)/n Enter choice";
+            cout << " Choose which file name you want to change(1-user, 2-default)/n Enter choice: ";
             cin >> num;
             switch (num)
             {
@@ -315,6 +379,10 @@ int main()
             path += ".txt";
             break;
 
+        case 7:
+            D.Tab();
+            break;
+
         case 0:
             return 0;
             break;
@@ -325,60 +393,7 @@ int main()
     }
 
  
-       // Product prod("Lalka", 1200, 1);
-        Product prod1("Pisun", 75, 1);
-        Product prod2("Chlen", 111, 1);
-
-        int n = 3;
-        Product* PR = new Product[n];
-       // PR[0] = prod;
-        PR[1] = prod1;
-        PR[2] = prod2;
-
-        //string path = "DATE.txt";
-
-        BuyOp BUY(13, 02, 2002, PR, n, 10);
-        /*
-         ofstream fout;
-         fout.open(path, ofstream::app);
-         if (!fout.is_open())
-         {
-             cout << "Opening error" << endl;
-         }
-         else
-         {
-             cout << " File is opened" << endl;
-             fout.write((char*)&BUY, sizeof(BuyOp));
-         }
-         fout.close();*/
-
-
-         /*BuyOp BUY;
-         ifstream fin;
-         fin.open(path);
-         if (!fin.is_open())
-         {
-             cout << "can't open file" << endl;
-         }
-         else
-         {
-             cout << " file is open" << endl;
-
-             while (fin.read((char*)&BUY, sizeof(BuyOp)))
-             {
-                 BUY.Show();
-             }
-
-         }
-         fin.close();*/
-
-
-        BuyOp* BO = new BuyOp[2];
-
-        BO[0] = BUY;
-        BO[1] = BUY;
-
-        DailyReport Day(13, 03, 2002, BO, 2);
+      
 
 
         //Day.show();
@@ -504,13 +519,10 @@ int main()
         D.show();*/
 
 
-        SearchByName("lalka", Day);
-        SearchByPrice(111, Day);
+
         //cout << averProdNum<DailyReport>(Day);
    
-        cout << averProdNum(Day, 1) << endl;
 
-        cout << midValOfProds(Day, 1);
 
         delete[] rep;
         delete[] prodLST;

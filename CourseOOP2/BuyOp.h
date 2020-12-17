@@ -52,5 +52,6 @@ public:
 
 	Product& operator[](int index);
 	BuyOp& operator=(const BuyOp& obj);
+
 };
 #endif

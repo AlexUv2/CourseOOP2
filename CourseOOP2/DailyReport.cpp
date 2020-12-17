@@ -1,4 +1,5 @@
 #include "DailyReport.h"
+#include <iomanip>
 
 DailyReport::DailyReport()
 {
@@ -83,6 +84,81 @@ DailyReport& DailyReport::operator=(const DailyReport& obj)
 		lst[i] = obj.lst[i];
 	}
 	return *this;
+}
+
+void DailyReport::Tab(/*double* arr, double dx, int numOfElem, double val*/)
+{
+	int tableLen = 5;
+	line1(201, 205, 203, 187, 7, 13);
+	cout << char(186) <<"  Client ID  " << char(186) << "\t   Date\t    " << char(186) << " Product name" << char(186)
+		<< "Product Price" << char(186) << " Sale Percent" << char(186) << "   All Sum   " << char(186) << "Sum with sale" << char(186) << endl;
+
+	line(204, 205, 206, 185, 7, 13);
+	for (int i = 0; i < getN(); i++)
+	{
+		cout << char(186) << setw(7) << lst[i].getID() << setw(7) << char(186) << " " << lst[i].getDay() << "." << lst[i].getDay() << "." << lst[i].getYear() << setw(3) << char(186)
+			<< setw(14) << char(186) << setw(14) << char(186) << setw(14) << char(186) << setw(8)  << lst[i].getSumOfProds() << setw(6) << char(186) <<setw(3)<< " " <<  lst[i].getSumWithSale() << "\t  " << char(186) << endl;
+		line(204, 205, 202, 185, 7, 13);
+		for (int j = 0; j < lst[i].getN(); j++)
+		{
+			cout << char(186)<< setw(28)<< char(186) << setw(3) << " " << lst[i][j].getProdName() << "\t" << setw(3) <<
+				char(186) << setw(5) << " " << lst[i][j].getProdPrice() << "\t" << char(186) << setw(6) << " " << lst[i].getSalePerc() << setw(6) << " " << char(186) 
+				<< setw(28) << char(186) << endl;
+		}
+
+		if (i != getN() - 1)
+		{
+			line(204, 205, 203, 185, 7, 13);
+		}
+	}
+	line1(200, 205, 202, 188, 1, 97);
+}
+
+void DailyReport::line(char start, char middle, char cross, char end, int count, int len)
+{
+	cout << start;
+	for (int i = 0; i < count - 1; i++)
+	{
+		for (int j = 0; j < len; j++)
+		{
+			cout << middle;
+		}
+
+		if (i > 0 && i < count - 2)
+		{
+			cout << char(206);
+		}
+		else
+		{
+			
+			cout << cross;
+		}
+	}
+	for (int j = 0; j < len; j++)
+	{
+		cout << middle;
+	}
+	cout << end << endl;
+}
+
+
+void DailyReport::line1(char start, char middle, char cross, char end, int count, int len)
+{
+	cout << start;
+	for (int i = 0; i < count - 1; i++)
+	{
+		for (int j = 0; j < len; j++)
+		{
+			cout << middle;
+		}
+		cout << cross;
+
+	}
+	for (int j = 0; j < len; j++)
+	{
+		cout << middle;
+	}
+	cout << end << endl;
 }
 
 

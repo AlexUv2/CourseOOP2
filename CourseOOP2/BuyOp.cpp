@@ -1,5 +1,8 @@
 #include "BuyOp.h"
 
+
+
+
 BuyOp::BuyOp()
 {
 	this->n = 0;
